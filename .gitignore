@@ -3,3 +3,4 @@ data.db
 *.pyc
 .DS_Store
 venv/
+.env/
