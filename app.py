@@ -1,6 +1,7 @@
 import os
 from flask_migrate import Migrate
 from flask import Flask, jsonify
+from dotenv import load_dotenv
 from flask_smorest import Api
 from db import db
 import models
@@ -14,6 +15,7 @@ from blocklist import BLOCKLIST
 
 def create_app(db_url=None):
     app = Flask(__name__, instance_path=os.getcwd())
+    load_dotenv()
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
     app.config["API_VERSION"] = "v1"
