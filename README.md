@@ -28,6 +28,10 @@ This project demonstrates how to build professional REST APIs using Python with 
 - [Docker](https://www.docker.com/get-started)
 - [Insomnia](https://insomnia.rest/download)
 
-### Testing the API
+### Installation
 
-Use [Insomnia](https://insomnia.rest/download) or a similar API client to send requests to the endpoints and verify functionality.
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/your-repository.git
+   cd your-repository
