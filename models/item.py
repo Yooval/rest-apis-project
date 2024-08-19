@@ -3,7 +3,7 @@ from db import db
 
 class ItemModel(db.Model):
     __tablename__ = "items"
-
+    # Required fields to create an item
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String)

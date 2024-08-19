@@ -1,4 +1,4 @@
-import uuid
+# -------------------------------imports----------------------------------
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -7,8 +7,10 @@ from db import db
 from models import StoreModel
 from schemas import StoreSchema
 
-blp = Blueprint("Stores", __name__, description="Operations on storesss")
+blp = Blueprint("Stores", __name__, description="Operations on stores")
 
+
+# Get a specific store if exist
 
 @blp.route("/store/<int:store_id>")
 class Store(MethodView):
@@ -17,12 +19,16 @@ class Store(MethodView):
         store = StoreModel.query.get_or_404(store_id)
         return store
 
+    # Delete a specific store if exist
+
     def delete(self, store_id):
         store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()
         return {"message": "Store deleted"}
 
+
+# Get all items in store
 
 @blp.route("/store")
 class StoreList(MethodView):
@@ -32,6 +38,7 @@ class StoreList(MethodView):
 
     @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
+    # Create new store
     def post(self, store_data):
         store = StoreModel(**store_data)
         try:
@@ -40,7 +47,7 @@ class StoreList(MethodView):
         except IntegrityError:
             abort(
                 400,
-                message="A store with that name already existssssssssss.",
+                message="A store with that name already exists.",
             )
         except SQLAlchemyError:
             abort(500, message="An error occurred creating the store.")

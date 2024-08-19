@@ -18,7 +18,8 @@ class UserRegister(MethodView):
             abort(409, message="A user with that username already exist.")
 
         user = UserModel(username=user_data["username"],
-                         password=pbkdf2_sha256.hash(user_data["password"])
+                         password=pbkdf2_sha256.hash(user_data["password"])  # Generate very long password for the
+                         # short one.
                          )
         db.session.add(user)
         db.session.commit()
@@ -32,13 +33,15 @@ class UserLogin(MethodView):
     def post(self, user_data):
         user = UserModel.query.filter(
             UserModel.username == user_data["username"]).first()
-        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+        if user and pbkdf2_sha256.verify(user_data["password"], user.password):  # verify the user exist, check that
+            # user.password can be hashed like the original password
             access_token = create_access_token(identity=user.id, fresh=True)
             refresh_token = create_refresh_token(identity=user.id)
             return {"access_token": access_token, "refresh_token": refresh_token}
         abort(401, message="Invalid credentials.")
 
 
+# block current token and creates a non-fresh one.
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
     @jwt_required(refresh=True)

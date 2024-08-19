@@ -1,3 +1,4 @@
+# -----------------------------imports---------------------------------
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,6 +10,9 @@ from schemas import TagSchema, TagAndItemSchema
 blp = Blueprint("Tags", "tags", description="Operations on tags")
 
 
+# storage method: each store has unic tags. Each tag has unlimted not unic items.
+
+# get all tags from store
 @blp.route("/store/<int:store_id>/tag")
 class Store(MethodView):
     @blp.response(200, TagSchema(many=True))
@@ -16,6 +20,7 @@ class Store(MethodView):
         store = StoreModel.query.get_or_404(store_id)
         return store.tags.all()
 
+    # Create new tag in store
     @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, tag_data, store_id):
@@ -29,6 +34,7 @@ class Store(MethodView):
         return tag
 
 
+# Add item to tag
 @blp.route("/item/<int:item_id>/tag/<int:tag_id>")
 class LinkTagsToItem(MethodView):
     @blp.response(201, TagSchema)
@@ -47,6 +53,7 @@ class LinkTagsToItem(MethodView):
             return tag
 
 
+# Get a specific tag if exist
 @blp.route("/tag/<int:tag_id>")
 class Tag(MethodView):
     @blp.response(200, TagSchema)
@@ -54,6 +61,8 @@ class Tag(MethodView):
         tag = TagModel.query.get_or_404(tag_id)
         return tag
 
+
+# remove item from a tag if exist
 
 @blp.response(200, TagAndItemSchema)
 def delete(self, item_id, tag_id):
@@ -68,6 +77,7 @@ def delete(self, item_id, tag_id):
     return {"message": "Item removed from tag", "item": item, "tag": tag}
 
 
+# Get information about a tag: unused(delete),used(proceed), tag not found.
 @blp.route("/tag/<int:tag_id>")
 class Tag(MethodView):
     @blp.response(200, TagSchema)
@@ -89,4 +99,3 @@ class Tag(MethodView):
             db.session.commit()
             return {"message:", "Tag deleted."}
         abort(400, message="Could not delete tag. Make sur tag is not associated with any items, then try again.")
-

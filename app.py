@@ -1,3 +1,4 @@
+# ----------------------------imports------------------------
 import os
 from flask_migrate import Migrate
 from flask import Flask, jsonify
@@ -12,6 +13,8 @@ from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
 from blocklist import BLOCKLIST
 
+
+# ----------------------------run app that runs the program------------------------
 
 def create_app(db_url=None):
     app = Flask(__name__, instance_path=os.getcwd())
@@ -31,6 +34,7 @@ def create_app(db_url=None):
     app.config["JWT_SECRET_KEY"] = "jose"
     jwt = JWTManager(app)
 
+    # ------------------------------------functions that manage JWT cases-------------------------------------------
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload):
         return jwt_payload["jti"] in BLOCKLIST
@@ -81,9 +85,10 @@ def create_app(db_url=None):
             401,
         )
 
-    #with app.app_context():
-        #db.create_all()
+    # with app.app_context():
+    # db.create_all()
 
+# ----------------------register all blueprints enable to use Decorating responses with flask-smorest---------------
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)
     api.register_blueprint(TagBlueprint)

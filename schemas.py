@@ -1,3 +1,6 @@
+# Schemas helps with validation of the parameters the functions recevies and returns.
+# parameters with required = True must be sent with the API request.
+# parameters with dump_only=True will only be sent back.
 from marshmallow import Schema, fields
 
 
