@@ -1,8 +1,9 @@
 # Professional REST API with Python, Flask, Docker, Flask-Smorest, and Flask-SQLAlchemy
 
 ## Overview
-
 This project is a REST API built with Flask, using PostgreSQL as the database.
+It's a comprehensive and high-performance backend API designed to manage users, stores, and tags efficiently. It offers robust authentication, seamless JWT token management, and scalable RESTful endpoints.
+
  
 ## Installation
  
