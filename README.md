@@ -1,4 +1,4 @@
-# Professional REST API with Python, Flask, Docker, Flask-Smorest, and Flask-SQLAlchemy
+# StoreMaster: A Professional REST API with Python, Flask, Docker, Flask-Smorest, and Flask-SQLAlchemy
 
 ## Overview
 This project is a REST API built with Flask, using PostgreSQL as the database.
