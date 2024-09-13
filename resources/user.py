@@ -41,7 +41,7 @@ class UserLogin(MethodView):
         abort(401, message="Invalid credentials.")
 
 
-# block current token and creates a non-fresh one.
+# block current token and creates a fresh one.
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
     @jwt_required(refresh=True)
